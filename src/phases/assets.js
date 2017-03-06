@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const staticCompressed = require('express-static-gzip');
 const assetsResolver = require('express-webpack-assets');
 
 module.exports = function phase(done) {
@@ -7,7 +8,9 @@ module.exports = function phase(done) {
 
   // In production, expose the dist folder.
   if (process.env.NODE_ENV === 'production') {
-    this.use('/assets', express.static(path.join(__dirname, '../../dist/'), { maxAge: '1y' }));
+    this.use('/assets', staticCompressed(path.join(__dirname, '../../dist/'), {
+        maxAge: '1y'
+    }));
   }
 
   // Inject the assets in the current locals.

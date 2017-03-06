@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import CompressionPlugin from 'compression-webpack-plugin';
 
 import paths from '../paths';
 import baseConfig from './base';
@@ -52,6 +53,15 @@ module.exports = {
         comments: false,
         screw_ie8: true,
       },
+    }),
+
+    // Build compressed files.
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
     })
   ]
 };
