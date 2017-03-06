@@ -1,4 +1,4 @@
-import opn from 'opn';
+import url from 'url';
 import morgan from 'morgan';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
@@ -10,6 +10,9 @@ import config from './config/development';
 const devServer = new WebpackDevServer(webpack(config), {
   setup(app) {
     app.use(morgan(':method :url :status :response-time ms - :res[content-length]', {
+      skip(req) {
+        return req.url.indexOf(url.parse(config.output.publicPath).pathname) < 0;
+      },
       stream: {
         write: (message) => {
           logger.debug(message.replace(/\n$/, ''));
