@@ -1,0 +1,11 @@
+body {
+  color: red;
+}
+
+div.hey {
+  font-weight: bold;
+}
+
+p.hey {
+  color: blue !important;
+}

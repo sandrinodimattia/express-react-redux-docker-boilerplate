@@ -1,0 +1,28 @@
+{
+  "extends": "airbnb",
+  "ecmaFeatures": {
+    "modules": true
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "max-len": [1, 120],
+    "comma-dangle": 0,
+    "guard-for-in": 0,
+    "new-cap": 0,
+    "no-confusing-arrow": 0,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/webpack/*.js",
+          "**/webpack/**/*.js"
+        ]
+      }
+    ]
+  }
+}
