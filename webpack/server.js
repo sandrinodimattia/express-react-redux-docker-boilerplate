@@ -1,3 +1,4 @@
+import opn from 'opn';
 import morgan from 'morgan';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
@@ -44,12 +45,13 @@ const devServer = new WebpackDevServer(webpack(config), {
   }
 });
 
-devServer.listen(3001, 'localhost', (err) => {
+const port = process.env.PORT || 3001;
+devServer.listen(port, 'localhost', (err) => {
   if (err) {
     logger.error(err, 'Error booting development server');
     process.exit(1);
   } else {
-    logger.info('Development server listening on: http://localhost:3001');
+    logger.info(`Development server listening on: http://localhost:${port}`);
 
     // Start the actual webserver.
     server.boot((serverError) => {
