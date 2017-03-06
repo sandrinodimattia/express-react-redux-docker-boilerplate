@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 
 import routes from './routes';
 import configureStore from './store';
 
 // Redux initialization.
-const store = configureStore();
+const store = configureStore([routerMiddleware(browserHistory)]);
 const history = syncHistoryWithStore(browserHistory, store);
 
 const render = () => {

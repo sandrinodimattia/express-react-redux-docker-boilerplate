@@ -1,10 +1,15 @@
 const helmet = require('helmet');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 
 const logger = require('../lib/logger');
 
 module.exports = function phase(done) {
+  // Compress everything.
+  this.use(compression());
+
+  // Debugger.
   this.use(morgan(':method :url :status :response-time ms - :res[content-length]', {
     stream: {
       write: (message) => {
