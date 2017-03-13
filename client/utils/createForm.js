@@ -1,5 +1,11 @@
 import { reduxForm } from 'redux-form';
 
-export default function createForm(name, component, options) {
-  return reduxForm({ form: name, ...options })(component);
+const defaultOptions = { };
+
+export default function createForm(name, component) {
+  return reduxForm({
+    form: name,
+    fields: component.formFields,
+    ...(component.formOptions || defaultOptions)
+  })(component);
 }
