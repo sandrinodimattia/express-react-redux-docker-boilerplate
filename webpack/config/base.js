@@ -5,6 +5,8 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 import paths from '../paths';
 
+process.noDeprecation = true;
+
 export default ({ publicPath, verbose, debug, browsersList, plugins = [] }) => ({
   name: 'client',
 
@@ -101,6 +103,9 @@ export default ({ publicPath, verbose, debug, browsersList, plugins = [] }) => (
           ],
           plugins: [
             'transform-export-extensions',
+
+            // Adds hot reloading support.
+            ...debug ? ['react-hot-loader/babel'] : [],
 
             // Adds component stack to warning messages
             // https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-react-jsx-source

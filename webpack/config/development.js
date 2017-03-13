@@ -1,7 +1,12 @@
+import chalk from 'chalk';
 import webpack from 'webpack';
+import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 
 import paths from '../paths';
 import baseConfig from './base';
+import { createLogger } from '../utils/logger';
+
+const logger = createLogger('webpack-build');
 
 const config = baseConfig({
   debug: true,
@@ -40,6 +45,13 @@ module.exports = {
 
   plugins: [
     ...config.plugins,
+
+    // Progress bar.
+    new ProgressBarPlugin({
+      summary: false,
+      format: `[${new Date().toISOString()}] Webpack build [:bar] ${chalk.green.bold(':percent')} (:elapsed seconds)`,
+      customSummary: buildTime => logger.debug(`Webpack build completed in ${buildTime}`)
+    }),
 
     // Write the name of the updated module to log during hot reloads.
     new webpack.NamedModulesPlugin(),
