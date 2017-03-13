@@ -1,4 +1,3 @@
-import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import { compose, createStore, applyMiddleware } from 'redux';
@@ -6,14 +5,16 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
 import DevTools from './containers/DevTools';
 
+import logger from './middlewares/logger';
+import normalizeErrorMiddleware from './middlewares/normalizeError';
+
 export default function configureStore(middlewares = [], initialState = { }) {
   const pipeline = [
     applyMiddleware(
       promiseMiddleware(),
       thunkMiddleware,
-      createLogger({
-        predicate: () => process.env.NODE_ENV !== 'production'
-      }),
+      normalizeErrorMiddleware(),
+      logger(),
       ...middlewares
     )
   ];
@@ -27,10 +28,12 @@ export default function configureStore(middlewares = [], initialState = { }) {
 
   // Enable Webpack hot module replacement for reducers.
   if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      const nextRootReducer = require('./reducers');
-      store.replaceReducer(nextRootReducer);
-    });
+    module.hot.accept('./reducers', () =>
+      System.import('./reducers')
+        .then((reducerModule) => {
+          store.replaceReducer(reducerModule.default);
+        })
+    );
   }
 
   return store;

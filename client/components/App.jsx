@@ -2,7 +2,8 @@ import './App.css';
 import React, { Component, PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 
-export default class App extends Component {
+import { connectContainer } from '../utils';
+export default connectContainer(class App extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired
   }
