@@ -1,5 +1,8 @@
-const path = require('path');
-const express = require('express');
+import path from 'path';
+import dotenv from 'dotenv';
+import express from 'express';
+
+dotenv.config();
 
 const logger = require('./lib/logger');
 const bootable = require('./lib/bootable');

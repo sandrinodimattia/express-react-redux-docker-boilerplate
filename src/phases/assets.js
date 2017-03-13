@@ -9,7 +9,7 @@ module.exports = function phase(done) {
   // In production, expose the dist folder.
   if (process.env.NODE_ENV === 'production') {
     this.use('/assets', staticCompressed(path.join(__dirname, '../../dist/'), {
-        maxAge: '1y'
+      maxAge: '1y'
     }));
   }
 
